@@ -1,0 +1,17 @@
+!!!
+%html
+  %head 
+    %title New Product
+  %body
+    %form{:name => "product", :action => "", :method => "post"}
+      %label ShortDesc:
+      %input{:type => "text", :name => "product[shortdesc]"}
+      %label Description:
+      %input{:type => "text", :name => "product[description]"}
+      %label Image URL:
+      %input{:type => "text", :name => "product[image_url]"}
+      %label Category:
+      %select{:name => "product[category_id]"}
+        - @categories.each do |c|
+          %option{:value => c.id}=c.name
+      %input{:type => "submit", :value => "Submit"}

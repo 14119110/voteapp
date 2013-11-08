@@ -1,0 +1,71 @@
+!!!
+%html
+  %head
+    %title Vote for a Product
+    %script{:type => "text/javascript", :src=>"http://code.jquery.com/jquery-1.8.3.js"}
+    %script{:type => "text/javascript", :src=>"http://code.jquery.com/ui/1.9.2/jquery-ui.js"}
+    :css
+      body {
+        font-family: sans-serif;
+        background: #a0a0a0;
+      }
+      #floater {
+        float:center; 
+        height:50%; 
+        margin-bottom: -400px; 
+      }
+      #votebox {
+        clear:both; 
+        position: relative;
+        margin-left:auto;
+        margin-right:auto;
+        //vertical-align:middle;
+      }
+      .block {
+        background: white; 
+        border: 2px solid black;
+        width: 420px;
+        height: 400px;
+        text-align: center;
+        padding: 15px;
+      }
+      .block a, a:visited {
+        border: 2px solid black;
+        color: black;
+        margin: 10px;
+        width: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        text-decoration: none;
+      }
+      .block a:hover {
+        background-color: #f0f0f0;
+      }
+      .prodimg {
+         width: 200px;
+      }  
+    :javascript
+      function voteup(id) {
+        
+        $.get("voteup/"+id, function () { location.reload(true);});        
+      };
+      function votedown(id) {
+        
+        $.get("votedown/"+id, function () { location.reload(true); });
+      };
+      $(function () {
+          $(".block").draggable();
+        });
+  %body
+    - if not(@p.nil?)
+      #floater
+        #votebox.block.ui-widget-content
+          %p Would you buy this #{@p.category.name} product?
+          %img.prodimg{:src => @p.image_url}
+          %p= @p.shortdesc
+          %p Picks #{@p.vote.upvote} Pans #{@p.vote.downvote}
+          %a{:onclick => "voteup(" + @p.id.to_s + ")", :href=>"#"} Yes
+          %a{:onclick => "votedown(" + @p.id.to_s + ")", :href=>"#"} No
+    - else
+      %a{:href => 'resetmyvotes'} Reset
+

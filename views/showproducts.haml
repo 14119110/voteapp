@@ -1,0 +1,44 @@
+!!!
+%html
+  %head 
+    %title All Products
+    %script{:type => "text/javascript", :src=>"http://code.jquery.com/jquery-1.8.3.js"}
+    %script{:type => "text/javascript", :src=>"http://code.jquery.com/ui/1.9.2/jquery-ui.js"}
+    :css
+      tr {
+        border: 1px black;
+      }
+      img {
+        width: 200px;
+      }
+    :javascript
+      function del(id) {
+        $.ajax({type: "DELETE",
+                url: "products/" + id
+                });
+        location.reload(true);
+      }
+  %body
+    %table 
+      %tr
+        %th Id
+        %th ShortDescr
+        %th Description
+        %th Image
+        %th Category
+        %th Picks
+        %th Pans
+        %th Delete
+      - @products.each do |p|
+        %tr
+          %td= p.id
+          %td= p.shortdesc 
+          %td= p.description
+          %td 
+            %img{:src => p.image_url}
+          %td= p.category.name
+          %td= p.vote.upvote
+          %td= p.vote.downvote
+          %td 
+            %a{:onclick => 'del(' + p.id.to_s + ')', :href => "#"} Delete
+
